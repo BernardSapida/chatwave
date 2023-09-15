@@ -21,9 +21,8 @@ export default function Sample() {
         setNumber(prev => prev + num)
     }
 
-    const sendMessage = async () => {
-        const res = await axios.get('/api/sample');
-        console.log(res.data.name)
+    const sendMessage = () => {
+        const res = axios.get('/api/sample');
     }
 
     return (
