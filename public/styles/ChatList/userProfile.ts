@@ -21,8 +21,4 @@ export default {
         'text-xs',
         'text-green-600',
     ].join(' '),
-    setting: [
-        'text-xl',
-        'text-default-500',
-    ].join(' '),
 }

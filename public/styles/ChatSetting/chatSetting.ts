@@ -8,7 +8,6 @@ export default {
         'border-2',
         'border-white/50',
         'rounded',
-        'bg-default-100',
     ].join(' '),
     avatarContainer: [
         'flex',

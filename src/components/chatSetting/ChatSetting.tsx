@@ -4,7 +4,9 @@ import { FunctionComponent } from 'react';
 
 import { Avatar } from "@nextui-org/react";
 
-import EditNickname from './EditNickname';
+import Block from './Block';
+import DeleteChat from './DeleteChat';
+import UserNickname from './UserNickname';
 
 import style from '@/public/styles/ChatSetting/chatSetting'
 
@@ -25,11 +27,9 @@ const ChatSetting: FunctionComponent<ChatSettingProps> = () => {
             </div>
             <div className={style.customizationContainer}>
                 <p className={style.category}>Customization</p>
-                <EditNickname />
-                <EditNickname />
-                <EditNickname />
-                <EditNickname />
-                <EditNickname />
+                <UserNickname />
+                <Block />
+                <DeleteChat />
             </div>
         </section>
     );

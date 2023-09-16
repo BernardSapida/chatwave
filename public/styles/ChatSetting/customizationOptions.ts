@@ -5,17 +5,23 @@ export default {
         'rounded',
         'text-sm',
         'font-medium',
-        '',
-        '',
-        '',
-        'bg-default-200',
+        'ease-out',
+        'duration-300',
         'cursor-pointer',
+
+        'hover:bg-default-200',
+    ].join(' '),
+    modalHeader: [
+        'flex',
+        'flex-col',
+        'gap-1',
     ].join(' '),
     modalBody: [
         'pb-6',
     ].join(' '),
     optionIcon: [
         'mb-0.5',
+        'mr-1.5',
         'inline-block',
         'text-xl',
     ].join(' '),

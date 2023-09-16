@@ -2,9 +2,9 @@
 
 import { FunctionComponent } from 'react';
 
-import { Button, User } from "@nextui-org/react";
+import { User } from "@nextui-org/react";
 
-import { AiOutlineSetting } from 'react-icons/ai';
+import SettingDropdown from './SettingDropdown';
 
 import style from '@/public/styles/ChatList/userProfile'
 
@@ -22,11 +22,9 @@ const UserProfile: FunctionComponent<UserProfileProps> = () => {
                     src: '/images/profile_pictures/bernardsapida.jpg'
                 }}
             />
-            <Button isIconOnly className='border-1 bg-white'>
-                <AiOutlineSetting className={style.setting} />
-            </Button>
+            <SettingDropdown />
         </div>
-    );
+    )
 }
 
 export default UserProfile;
