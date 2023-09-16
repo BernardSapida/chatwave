@@ -1,15 +1,13 @@
-"use client"
-
-import Sample from '@/components/Sample'
+import ChatList from '../components/chatList/ChatList';
+import ChatSetting from '../components/chatSetting/ChatSetting';
+import ChatWindow from '../components/window/ChatWindow';
 
 export default function Home() {
-  const changesHandler = () => {
-    console.log("Client received changes")
-  }
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Sample />
+    <main className='flex'>
+      <ChatList />
+      <ChatWindow />
+      <ChatSetting />
     </main>
   )
 }
