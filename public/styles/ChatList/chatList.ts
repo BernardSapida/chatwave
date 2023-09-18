@@ -6,8 +6,7 @@ export default {
         'h-screen',
         'overflow-y-scroll',
         'overflow-x-hidden',
-        'border-2',
-        'border-white/50',
-        'rounded',
+        'border-r-1',
+        'border-default-200',
     ].join(' '),
 }

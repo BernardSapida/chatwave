@@ -2,10 +2,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { Providers } from "./providers";
-
-import '@/public/css/globals.css'
+import { AppContextProvider } from '../store/AppContext';
 
 const inter = Inter({ subsets: ['latin'] })
+
+import '@/public/css/globals.css'
 
 export const metadata: Metadata = {
   title: 'BoogieTalk',
@@ -18,12 +19,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
+        <AppContextProvider>
+          <Providers>
+            {children}
+          </Providers>
+        </AppContextProvider>
       </body>
-    </html>
+    </html >
   )
 }

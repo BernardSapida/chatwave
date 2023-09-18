@@ -2,7 +2,7 @@
 
 import { FunctionComponent, } from 'react';
 
-import { BsPersonFillExclamation } from 'react-icons/bs';
+import { BsPersonExclamation } from 'react-icons/bs';
 
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, ModalFooter } from "@nextui-org/react";
 
@@ -26,7 +26,7 @@ const Block: FunctionComponent<BlockProps> = () => {
                 className={style.customizationOptions}
                 onClick={onOpen}
             >
-                <BsPersonFillExclamation className={style.optionIcon} /> Block
+                <BsPersonExclamation className={style.optionIcon} /> Block
             </div>
             <Modal
                 isOpen={isOpen}

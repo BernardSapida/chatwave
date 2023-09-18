@@ -2,7 +2,7 @@
 
 import { FunctionComponent, } from 'react';
 
-import { TbAbc } from 'react-icons/tb';
+import { RxLetterCaseCapitalize } from 'react-icons/rx';
 import { AiOutlineEdit } from 'react-icons/ai';
 
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, User } from "@nextui-org/react";
@@ -23,7 +23,7 @@ const UserNickname: FunctionComponent<UserNicknameProps> = () => {
                 className={style.customizationOptions}
                 onClick={onOpen}
             >
-                <TbAbc className={style.optionIcon} /> Edit nickname
+                <RxLetterCaseCapitalize className={style.optionIcon} /> Edit nickname
             </div>
             <Modal
                 isOpen={isOpen}

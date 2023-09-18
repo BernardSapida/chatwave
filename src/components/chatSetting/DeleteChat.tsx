@@ -2,7 +2,7 @@
 
 import { FunctionComponent, } from 'react';
 
-import { IoMdTrash } from 'react-icons/io';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, ModalFooter } from "@nextui-org/react";
 
@@ -26,7 +26,7 @@ const DeleteChat: FunctionComponent<DeleteChatProps> = () => {
                 className={style.customizationOptions}
                 onClick={onOpen}
             >
-                <IoMdTrash className={style.optionIcon} /> Delete chat
+                <AiOutlineDelete className={style.optionIcon} /> Delete chat
             </div>
             <Modal
                 isOpen={isOpen}

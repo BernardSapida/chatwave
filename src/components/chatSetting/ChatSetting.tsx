@@ -23,7 +23,7 @@ const ChatSetting: FunctionComponent<ChatSettingProps> = () => {
                     src='/images/profile_pictures/julliannecabagay.jpg'
                     className={style.avatar}
                 />
-                <p className={style.name}>Torey Harris</p>
+                <p className={style.name}>Jullianne Cabagay</p>
             </div>
             <div className={style.customizationContainer}>
                 <p className={style.category}>Customization</p>

@@ -5,9 +5,8 @@ export default {
         'max-w-[340px]',
         'w-full',
         'h-screen',
-        'border-2',
-        'border-white/50',
-        'rounded',
+        'border-l-1',
+        'border-default-200',
     ].join(' '),
     avatarContainer: [
         'flex',
@@ -29,6 +28,7 @@ export default {
         'w-full',
     ].join(' '),
     category: [
+        'mx-2',
         'font-medium',
         'text-xs',
         'text-default-500',

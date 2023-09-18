@@ -18,6 +18,7 @@ export default {
     ].join(' '),
     modalBody: [
         'pb-6',
+        'gap-0'
     ].join(' '),
     optionIcon: [
         'mb-0.5',

@@ -3,9 +3,6 @@ export default {
         'p-3',
         'w-full',
         'h-screen',
-        'border-2',
-        'border-white/50',
-        'rounded',
     ].join(' '),
     chatWindowHeader: [
         'pb-3',
@@ -13,6 +10,7 @@ export default {
         'justify-between',
         'items-center',
         'border-b-1',
+        'border-default-200',
     ].join(' '),
     name: [
         'text-xs',
