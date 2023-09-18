@@ -1,16 +1,16 @@
 export default {
     section: [
-        'p-3',
         'w-full',
         'h-screen',
     ].join(' '),
     chatWindowHeader: [
-        'pb-3',
+        'p-3',
         'flex',
         'justify-between',
         'items-center',
         'border-b-1',
         'border-default-200',
+        'h-14'
     ].join(' '),
     name: [
         'text-xs',

@@ -68,6 +68,7 @@ const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
                                     startContent={<BsMoonStars />}
                                     endContent={<HiOutlineSun />}
                                     onValueChange={themeHandler}
+                                    isSelected={theme == 'dark'}
                                 />
                             }
                             textValue={'theme'}

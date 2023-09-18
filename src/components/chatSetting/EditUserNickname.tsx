@@ -49,14 +49,14 @@ const EditUserNickname: FunctionComponent<EditUserNicknameProps> = () => {
             {
                 activeEdit ?
                     <div className='flex gap-1'>
-                        <Button isIconOnly className='border-1 border-green-600 bg-white' onClick={() => updateNickname()}>
+                        <Button isIconOnly className='border-1 border-green-600' onClick={() => updateNickname()}>
                             <BsCheckLg className={style.checkIcon} />
                         </Button>
-                        <Button isIconOnly className='border-1 border-red-600 bg-white' onClick={() => setActiveEdit(false)}>
+                        <Button isIconOnly className='border-1 border-red-600' onClick={() => setActiveEdit(false)}>
                             <LiaTimesSolid className={style.cancelIcon} />
                         </Button>
                     </div> :
-                    <Button isIconOnly className='border-1 border-default-300 bg-white' onClick={() => setActiveEdit(true)}>
+                    <Button isIconOnly className='border-1 bg-default-100' onClick={() => setActiveEdit(true)}>
                         <AiOutlineEdit className={style.editIcon} />
                     </Button>
             }

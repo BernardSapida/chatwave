@@ -21,6 +21,6 @@ export default {
     ].join(' '),
     editIcon: [
         'text-xl',
-        'text-default-300',
+        'text-default-700',
     ].join(' '),
 }
