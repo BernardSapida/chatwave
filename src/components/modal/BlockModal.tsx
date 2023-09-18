@@ -41,7 +41,7 @@ const Block: FunctionComponent<BlockProps> = () => {
                                 Block
                             </ModalHeader>
                             <ModalBody className={style.modalBody}>
-                                Are you sure, you want to block Jullianne Cabagay?
+                                Are you sure, you want to block Bernard Sapida?
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="default" variant="light" onPress={onClose}>

@@ -51,11 +51,6 @@ const MessageRequestModal: FunctionComponent<MessageRequestModal> = ({ messageRe
                                     <Button color={'danger'}><AiOutlineDelete className={'mb-0.5'} />Delete</Button>
                                 </div>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>

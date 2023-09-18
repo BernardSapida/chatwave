@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { FunctionComponent } from 'react';
 
@@ -9,9 +9,7 @@ import Conversation from './Conversation';
 
 import style from '@/public/styles/ChatList/chatList'
 
-interface ChatListProps {
-
-}
+interface ChatListProps { }
 
 const ChatList: FunctionComponent<ChatListProps> = () => {
     return (

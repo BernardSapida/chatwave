@@ -8,13 +8,13 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, User } from "@nextui-org/react";
 
 import style from '@/public/styles/ChatSetting/customizationOptions'
-import EditUserNickname from './EditUserNickname';
+import EditUserNickname from '../chatSetting/EditUserNickname';
 
-interface UserNicknameProps {
+interface EditNicknameModalProps {
 
 }
 
-const UserNickname: FunctionComponent<UserNicknameProps> = () => {
+const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
@@ -48,4 +48,4 @@ const UserNickname: FunctionComponent<UserNicknameProps> = () => {
     );
 }
 
-export default UserNickname;
+export default EditNicknameModal;

@@ -1,5 +1,7 @@
 'use client'
 
+import { FunctionComponent } from 'react';
+
 import { useTheme } from 'next-themes';
 
 import {
@@ -13,13 +15,12 @@ import {
     useDisclosure
 } from "@nextui-org/react";
 
-import { FunctionComponent } from 'react';
 import { HiOutlineSun } from 'react-icons/hi';
-import { LuMessagesSquare } from 'react-icons/lu';
-import { TbLogout, TbMessageCircleX } from 'react-icons/tb';
-import { BsPersonGear, BsPersonAdd, BsMoonStars } from 'react-icons/bs';
-import { MdOutlinePersonSearch } from 'react-icons/md';
 import { AiOutlineSetting } from 'react-icons/ai';
+import { LuMessagesSquare } from 'react-icons/lu';
+import { MdOutlinePersonSearch } from 'react-icons/md';
+import { TbLogout, TbMessageCircleX } from 'react-icons/tb';
+import { BsPersonGear, BsPersonAdd, BsMoonStars, BsPersonCheck } from 'react-icons/bs';
 
 import AllModals from '../modal/AllModals';
 
@@ -31,22 +32,20 @@ interface SettingDropdowProps {
 
 const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
     const { theme, setTheme } = useTheme();
+
+    const myPreferencesDisclosure = useDisclosure();
     const myProfileModalDisclosure = useDisclosure();
     const addFriendModalDisclosure = useDisclosure();
     const friendRequestModalDisclosure = useDisclosure();
     const archivedChatsModalDisclosure = useDisclosure();
     const messageRequestModalDisclosure = useDisclosure();
 
-    const themeHandler = (isSelected: boolean) => {
-        setTheme(isSelected ? 'dark' : 'light')
-    }
-
     return (
         <>
             <Dropdown>
                 <DropdownTrigger>
-                    <Button isIconOnly className={style.button}>
-                        <AiOutlineSetting className={style.setting} />
+                    <Button isIconOnly>
+                        <AiOutlineSetting className={style.icon} />
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu
@@ -54,29 +53,17 @@ const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
                     aria-label="Dropdown menu with icons"
                 >
                     <DropdownSection
-                        title="Theme"
-                        aria-label="general"
+                        title="Preferences"
+                        aria-label="preference"
                         showDivider
                     >
                         <DropdownItem
-                            key="theme"
-                            startContent={
-                                <Switch
-                                    defaultSelected
-                                    size="sm"
-                                    color="default"
-                                    startContent={<BsMoonStars />}
-                                    endContent={<HiOutlineSun />}
-                                    onValueChange={themeHandler}
-                                    isSelected={theme == 'dark'}
-                                />
-                            }
-                            textValue={'theme'}
-                            isReadOnly
+                            key="Profile"
+                            startContent={<BsPersonGear className={style.icon} />}
+                            onClick={myPreferencesDisclosure.onOpen}
                         >
-                            <small>{`${theme?.slice(0, 1).toUpperCase()}${theme?.slice(1)}`} mode</small>
+                            My preferences
                         </DropdownItem>
-
                     </DropdownSection>
                     <DropdownSection
                         title="General"
@@ -85,7 +72,7 @@ const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
                     >
                         <DropdownItem
                             key="Profile"
-                            startContent={<BsPersonGear className={style.icon} />}
+                            startContent={<BsPersonCheck className={style.icon} />}
                             onClick={myProfileModalDisclosure.onOpen}
                         >
                             My profile
@@ -138,6 +125,7 @@ const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
                 </DropdownMenu>
             </Dropdown>
             <AllModals
+                myPreferencesDisclosure={myPreferencesDisclosure}
                 myProfileModalDisclosure={myProfileModalDisclosure}
                 addFriendModalDisclosure={addFriendModalDisclosure}
                 friendRequestModalDisclosure={friendRequestModalDisclosure}

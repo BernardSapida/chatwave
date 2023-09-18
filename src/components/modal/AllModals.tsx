@@ -1,4 +1,6 @@
 import { FunctionComponent } from 'react';
+
+import MyPreferencesModal from './MyPreferencesModal';
 import MyProfileModal from './MyProfileModal';
 import AddFriendModal from './AddFriendModal';
 import FriendRequestModal from './FriendRequestModal';
@@ -6,6 +8,7 @@ import ArchivedChatsModal from './ArchivedChatsModal';
 import MessageRequestModal from './MessageRequestModal';
 
 interface AllModalsProps {
+    myPreferencesDisclosure: Disclosure;
     myProfileModalDisclosure: Disclosure;
     addFriendModalDisclosure: Disclosure;
     friendRequestModalDisclosure: Disclosure;
@@ -14,6 +17,7 @@ interface AllModalsProps {
 }
 
 const AllModals: FunctionComponent<AllModalsProps> = ({
+    myPreferencesDisclosure,
     myProfileModalDisclosure,
     addFriendModalDisclosure,
     friendRequestModalDisclosure,
@@ -22,6 +26,7 @@ const AllModals: FunctionComponent<AllModalsProps> = ({
 }) => {
     return (
         <>
+            {myPreferencesDisclosure.isOpen ? <MyPreferencesModal myPreferencesDisclosure={myPreferencesDisclosure} /> : ''}
             {myProfileModalDisclosure.isOpen ? <MyProfileModal myProfileModalDisclosure={myProfileModalDisclosure} /> : ''}
             {addFriendModalDisclosure.isOpen ? <AddFriendModal addFriendModalDisclosure={addFriendModalDisclosure} /> : ''}
             {friendRequestModalDisclosure.isOpen ? <FriendRequestModal friendRequestModalDisclosure={friendRequestModalDisclosure} /> : ''}

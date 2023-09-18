@@ -51,11 +51,6 @@ const ArchivedChatsModal: FunctionComponent<ArchivedChatsModal> = ({ archivedCha
                                     <Button color={'default'}><MdOutlineUnarchive className={'mb-0.5'} />Unarchive</Button>
                                 </div>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>

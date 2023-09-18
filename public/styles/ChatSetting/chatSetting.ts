@@ -16,13 +16,14 @@ export default {
         'mb-3'
     ].join(' '),
     avatar: [
-        'w-24',
-        'h-24',
+        'w-20',
+        'h-20',
         'mb-2',
         'text-large',
     ].join(' '),
     name: [
         'font-medium',
+        'text-sm'
     ].join(' '),
     customizationContainer: [
         'w-full',

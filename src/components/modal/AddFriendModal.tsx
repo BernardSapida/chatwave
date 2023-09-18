@@ -44,7 +44,7 @@ const AddFriendModal: FunctionComponent<AddFriendModal> = ({ addFriendModalDiscl
                                         <BiSearch className="text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
                                     }
                                 />
-                                <div>
+                                <div className='mt-3'>
                                     <p className='mb-3 text-tiny'>Found users:</p>
                                     <div className={'flex items-center justify-between mb-3'}>
                                         <User
@@ -72,11 +72,6 @@ const AddFriendModal: FunctionComponent<AddFriendModal> = ({ addFriendModalDiscl
                                     </div>
                                 </div>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>

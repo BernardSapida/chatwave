@@ -62,11 +62,6 @@ const FriendRequestModal: FunctionComponent<FriendRequestModal> = ({ friendReque
                                     </div>
                                 </div>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>

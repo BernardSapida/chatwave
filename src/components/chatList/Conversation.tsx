@@ -15,12 +15,8 @@ const Conversation: FunctionComponent<ConversationtProps> = () => {
         <section className={style.section}>
             <div className={style.header}>
                 <p className={style.title}>Conversations</p>
-                <p className={style.chip}>Active 9</p>
+                <p className={style.chip}>Active 1</p>
             </div>
-            <Chat />
-            <Chat />
-            <Chat />
-            <Chat />
             <Chat />
         </section>
     );

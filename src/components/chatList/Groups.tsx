@@ -18,10 +18,6 @@ const Groups: FunctionComponent<GroupsProps> = () => {
                 <p className={style.title}>Groups</p>
             </div>
             <Chat />
-            <Chat />
-            <Chat />
-            <Chat />
-            <Chat />
         </section>
     );
 }
