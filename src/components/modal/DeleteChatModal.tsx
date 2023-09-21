@@ -9,10 +9,11 @@ import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Mod
 import style from '@/public/styles/ChatSetting/customizationOptions'
 
 interface DeleteChatProps {
-
+    user: User
+    friend: User
 }
 
-const DeleteChat: FunctionComponent<DeleteChatProps> = () => {
+const DeleteChat: FunctionComponent<DeleteChatProps> = ({ user, friend }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const deleteChat = (onClose: Function) => {

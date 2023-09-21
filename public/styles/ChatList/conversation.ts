@@ -22,4 +22,8 @@ export default {
         'my-0',
         'leading-none',
     ].join(' '),
+    placeholder: [
+        'text-tiny',
+        'text-default-400'
+    ].join(' '),
 }

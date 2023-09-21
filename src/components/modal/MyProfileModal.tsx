@@ -1,16 +1,24 @@
-"use client"
+'use client'
 
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalFooter, Avatar, Badge } from "@nextui-org/react";
+import { AiOutlineCamera } from 'react-icons/ai';
+
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalFooter, Avatar, Badge } from '@nextui-org/react';
+
+import { useContext } from 'react';
+
+import axios from 'axios';
+
+import { Formik } from 'formik';
+
+import InputField from '../form/InputField';
 
 import { initialValues, validationSchema } from '@/src/helpers/contactValidation';
-import styles from '@/public/styles/Profile/editProfile'
+
+import { UserContext } from '@/src/store/UserContext';
+
 import style from '@/public/styles/ChatSetting/customizationOptions'
-import axios from 'axios';
-import { Formik } from 'formik';
-import InputField from '../form/InputField';
-import { AiOutlineCamera } from 'react-icons/ai';
 
 interface MyProfileModalProps {
     myProfileModalDisclosure: Disclosure
@@ -18,40 +26,73 @@ interface MyProfileModalProps {
 
 const MyProfileModal: FunctionComponent<MyProfileModalProps> = ({ myProfileModalDisclosure }) => {
     const { isOpen, onClose, onOpenChange } = myProfileModalDisclosure;
-
     const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-    const [displayPicture, setDisplayPicture] = useState<string>('https://res.cloudinary.com/dwwdihklx/image/upload/v1694866352/display-pictures/lyv8fagduswrloey8mpb.jpg');
-    const [displayPictureFile, setDisplayPictureFile] = useState<File>();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [photoFile, setPhotoFile] = useState<File>();
     const photoRef = useRef<HTMLInputElement>(null);
+    const [photo, setPhoto] = useState<string>();
+    const userContext = useContext(UserContext);
+
+    useEffect(() => setPhoto(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${userContext.image_public_id}.jpg`), [])
 
     const handleSubmit = async (
-        values: { firstname: string; lastname: string; email: string; },
+        values: { firstname: string; lastname: string; email: string; image_public_id: string; },
         { resetForm }: { resetForm: any }
     ) => {
-        console.log(values)
-        console.log(displayPictureFile)
+        try {
+            setLoading(true);
+            let imagePublicId: string = '';
 
-        if (displayPictureFile) saveNewDisplayPicture(displayPictureFile);
+            // If user uploads a photo
+            if (photoFile) {
+                imagePublicId = await saveNewPhoto(photoFile);
+                values.image_public_id = imagePublicId;
+            }
 
-        onClose();
+            // save to database
+            console.log(values)
+
+            updateUserInfo(values);
+
+            setPhoto(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${imagePublicId}`);
+            setLoading(false);
+            onClose();
+        } catch (error: any) {
+            setLoading(false);
+            console.log(error)
+        }
     }
 
-    const saveNewDisplayPicture = (displayPictureFile: File) => {
+    const updateUserInfo = (data: User) => {
+        userContext.setFirstname(data.firstname);
+        userContext.setLastname(data.lastname);
+        userContext.setEmail(data.email);
+        userContext.setImagePublicId(data.image_public_id!);
+    }
+
+    const saveNewPhoto = async (photoFile: File): Promise<string> => {
         const formData = new FormData();
-        formData.append('file', displayPictureFile);
+        formData.append('file', photoFile);
         formData.append('upload_preset', 'display-pictures');
 
-        console.log(displayPictureFile);
-        // const res = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`, formData);
-        // const public_id = res.data.public_id;
-        // const display_picture_url = `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${public_id}`;
-        // setDisplayPicture(display_picture_url);
+        const imagePublicId = await postCloudinaryImage(formData);
+
+        // Update display picture with new display picture
+        return imagePublicId;
+    }
+
+    const postCloudinaryImage = async (formData: FormData): Promise<string> => {
+        const res = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`, formData);
+        const imagePublicId = res.data.public_id;
+
+        return imagePublicId;
     }
 
     const handleFileChange = (event: any) => {
         const selectedFile = event.target.files[0];
-        setDisplayPicture(URL.createObjectURL(selectedFile));
-        setDisplayPictureFile(selectedFile);
+
+        setPhoto(URL.createObjectURL(selectedFile));
+        setPhotoFile(selectedFile);
     };
 
     return (
@@ -61,103 +102,108 @@ const MyProfileModal: FunctionComponent<MyProfileModalProps> = ({ myProfileModal
                 onOpenChange={onOpenChange}
                 placement={'center'}
                 scrollBehavior={'inside'}
-            // portalContainer={true}
+                portalContainer={document.body}
             >
                 <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className={style.modalHeader}>
-                                My Profile
-                            </ModalHeader>
-                            <ModalBody className={style.modalBody}>
-                                <div className='mx-auto'>
-                                    <Badge
-                                        isOneChar
-                                        content={
-                                            <>
-                                                <AiOutlineCamera className={'h-4 w-4 cursor-pointer'} onClick={() => photoRef.current?.click()} />
-                                                <input
-                                                    type="file"
-                                                    name="photo"
-                                                    ref={photoRef}
-                                                    onChange={handleFileChange}
-                                                    accept="image/png, image/jpeg, image/jpg"
-                                                    className='hidden'
-                                                />
-                                            </>
-                                        }
-                                        size='lg'
-                                        color={'default'}
-                                        placement="bottom-right"
-                                        className='h-8 w-8 bottom-3 right-3'
-                                    >
-                                        <Avatar
-                                            radius="full"
-                                            src={displayPicture}
-                                            className='h-20 w-20'
+                    <ModalHeader className={style.modalHeader}>
+                        My Profile
+                    </ModalHeader>
+                    <ModalBody className={style.modalBody}>
+                        <div className={style.photoContainer}>
+                            <Badge
+                                isOneChar
+                                content={
+                                    <>
+                                        <AiOutlineCamera
+                                            className={style.cameraIcon}
+                                            onClick={() => photoRef.current?.click()}
                                         />
-                                    </Badge>
-                                </div>
-                                <Formik
-                                    initialValues={initialValues}
-                                    validationSchema={validationSchema}
+                                        <input
+                                            type='file'
+                                            name='photo'
+                                            ref={photoRef}
+                                            onChange={handleFileChange}
+                                            accept='image/png, image/jpeg, image/jpg'
+                                            className={style.fileInput}
+                                        />
+                                    </>
+                                }
+                                size='lg'
+                                color={'default'}
+                                placement='bottom-right'
+                                className={style.badge}
+                            >
+                                <Avatar
+                                    radius='full'
+                                    src={photo}
+                                    className={style.photo}
+                                />
+                            </Badge>
+                        </div>
+                        <Formik
+                            initialValues={userContext}
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ errors, handleSubmit, handleChange, values }) => (
+                                <form
+                                    className={style.form}
                                     onSubmit={handleSubmit}
+                                    id='profileForm'
                                 >
-                                    {({ errors, handleSubmit, handleChange, values }) => (
-                                        <form className={styles.form} onSubmit={handleSubmit} id='profileForm'>
-                                            <div className='w-full flex gap-1'>
-                                                <InputField
-                                                    type='text'
-                                                    name='firstname'
-                                                    label='Firstname'
-                                                    error={errors.firstname}
-                                                    formSubmitted={formSubmitted}
-                                                    value={values.firstname}
-                                                    // loading={loading}
-                                                    handleChange={handleChange}
-                                                />
-                                                <InputField
-                                                    type='text'
-                                                    name='lastname'
-                                                    label='Lastname'
-                                                    error={errors.lastname}
-                                                    formSubmitted={formSubmitted}
-                                                    value={values.lastname}
-                                                    // loading={loading}
-                                                    handleChange={handleChange}
-                                                />
-                                            </div>
-                                            <div className='w-full mt-2'>
-                                                <InputField
-                                                    type='email'
-                                                    name='email'
-                                                    label='Email'
-                                                    error={errors.email}
-                                                    formSubmitted={formSubmitted}
-                                                    value={values.email}
-                                                    // loading={loading}
-                                                    handleChange={handleChange}
-                                                />
-                                            </div>
-                                        </form>
-                                    )}
-                                </Formik>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
-                                    Cancel
-                                </Button>
-                                <Button
-                                    type='submit'
-                                    form='profileForm'
-                                    color="primary"
-                                    onClick={() => setFormSubmitted(true)}
-                                >
-                                    Save changes
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
+                                    <div className={style.fullnameContainer}>
+                                        <InputField
+                                            type='text'
+                                            name='firstname'
+                                            label='Firstname'
+                                            value={values.firstname}
+                                            loading={loading}
+                                            error={errors.firstname}
+                                            handleChange={handleChange}
+                                            formSubmitted={formSubmitted}
+                                        />
+                                        <InputField
+                                            type='text'
+                                            name='lastname'
+                                            label='Lastname'
+                                            value={values.lastname}
+                                            loading={loading}
+                                            error={errors.lastname}
+                                            handleChange={handleChange}
+                                            formSubmitted={formSubmitted}
+                                        />
+                                    </div>
+                                    <div className={style.emailContainer}>
+                                        <InputField
+                                            type='email'
+                                            name='email'
+                                            label='Email'
+                                            value={values.email}
+                                            loading={loading}
+                                            error={errors.email}
+                                            handleChange={handleChange}
+                                            formSubmitted={formSubmitted}
+                                        />
+                                    </div>
+                                </form>
+                            )}
+                        </Formik>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            type='submit'
+                            form='profileForm'
+                            color='primary'
+                            onClick={() => setFormSubmitted(true)}
+                            isLoading={loading}
+                        >
+                            {
+                                loading ?
+                                    'Saving...' :
+                                    'Save changes'
+                            }
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </>

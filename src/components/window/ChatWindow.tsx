@@ -1,96 +1,92 @@
-"use client"
+'use client'
 
-import { FunctionComponent } from 'react';
+import { Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from 'react';
 
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 import { Avatar, Button, Textarea, User } from '@nextui-org/react';
 
 import style from '@/public/styles/window/chatWindow'
+import Link from 'next/link';
 
 interface ChatWindowProps {
-
+    conversation: Conversation,
+    user: User,
+    friend: User,
+    setShowSetting: Dispatch<SetStateAction<boolean>>
 }
 
-const ChatWindow: FunctionComponent<ChatWindowProps> = () => {
+const ChatWindow: FunctionComponent<ChatWindowProps> = ({ conversation, user, friend, setShowSetting }) => {
+    const [messages, setMessages] = useState<Message[]>();
+
+    useEffect(() => setMessages(conversation?.messages), []);
+
+    const appendMessage = (message: Message) => {
+        setMessages(prevMessages => [...prevMessages!, message]);
+    }
+
     return (
         <section className={style.section}>
             <div className={style.chatWindowHeader}>
-                <div className='flex items-center'>
+                <div className={style.userProfileContainer}>
+                    <Button
+                        as={Link}
+                        className={style.btnBack}
+                        href="/chat"
+                        isIconOnly
+                    >
+                        <BsArrowLeft />
+                    </Button>
                     <User
-                        name={<p className={style.name}>Bernard Sapida</p>}
-                        description={<small className={style.status}>Active Now</small>}
+                        name={<p className={style.name}>{friend?.firstname} {friend?.lastname}</p>}
+                        description={<small className={style.status(friend?.online!)}>{friend?.online ? 'Active Now' : 'Offline'}</small>}
                         avatarProps={{
-                            src: 'https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/241511430_129082269454219_8671826391677060465_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a2f6c7&_nc_eui2=AeGPtQC6GeoYXJPCHTRp_ou7xiKEyAMjNNnGIoTIAyM02SkntEoZ1raWq-NZurRZKBXxgSZAexfhmXzweqY-3tbE&_nc_ohc=IoOOZxdC5ncAX8OwXPe&_nc_ht=scontent.fmnl30-1.fna&oh=00_AfCUW91-ShKgNAIVa33dYTC75HSmSSg0ZjVqu4pMfRWqLg&oe=650CECA9'
+                            src: `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friend?.image_public_id}`
                         }}
                     />
                 </div>
-                <BsThreeDotsVertical />
+                <Button
+                    className={style.btnInfo}
+                    onClick={() => setShowSetting(prevState => !prevState)}
+                    isIconOnly
+                >
+                    <AiOutlineInfoCircle />
+                </Button>
             </div>
-            <div className='h-[calc(100vh-3.5rem)] flex flex-col'>
-                <div className='h-full overflow-y-auto p-2 flex flex-col gap-1'>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-ful h-[40px] w-[40px]'></div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>Brooooo</p>
-                    </div>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-full h-[40px] w-[40px]'></div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>Are you up?</p>
-                    </div>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-full h-[40px] w-[40px]'>
-                            <Avatar src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/241511430_129082269454219_8671826391677060465_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a2f6c7&_nc_eui2=AeGPtQC6GeoYXJPCHTRp_ou7xiKEyAMjNNnGIoTIAyM02SkntEoZ1raWq-NZurRZKBXxgSZAexfhmXzweqY-3tbE&_nc_ohc=IoOOZxdC5ncAX8OwXPe&_nc_ht=scontent.fmnl30-1.fna&oh=00_AfCUW91-ShKgNAIVa33dYTC75HSmSSg0ZjVqu4pMfRWqLg&oe=650CECA9" size='sm' />
-                        </div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>I'm free</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Ay sige sige HAHAHA</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Goodluck bro</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Laro nalang later</p>
-                    </div>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-ful h-[40px] w-[40px]'></div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>Brooooo</p>
-                    </div>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-full h-[40px] w-[40px]'></div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>Are you up?</p>
-                    </div>
-                    <div className='flex items-end gap-1'>
-                        <div className='rounded-full h-[40px] w-[40px]'>
-                            <Avatar src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/241511430_129082269454219_8671826391677060465_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a2f6c7&_nc_eui2=AeGPtQC6GeoYXJPCHTRp_ou7xiKEyAMjNNnGIoTIAyM02SkntEoZ1raWq-NZurRZKBXxgSZAexfhmXzweqY-3tbE&_nc_ohc=IoOOZxdC5ncAX8OwXPe&_nc_ht=scontent.fmnl30-1.fna&oh=00_AfCUW91-ShKgNAIVa33dYTC75HSmSSg0ZjVqu4pMfRWqLg&oe=650CECA9" size='sm' />
-                        </div>
-                        <p className='p-2 rounded w-auto max-w-sm shadow-md bg-default-100'>I'm free</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Yow!</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Tagal mo magyaya HAHAHA</p>
-                    </div>
-                    <div className='ml-auto p-2 rounded w-auto max-w-sm bg-default-300 text-default-900'>
-                        <p>Ako na jungle HAHAHAHA</p>
-                    </div>
+            <div className={style.conversationOuterCointainer}>
+                <div className={style.conversationInnerCointainer}>
+                    <div className={style.box}></div>
+                    {
+                        messages?.map((message: Message, index: number, arr: Message[]) => (
+                            message.sender_id === user?._id ? (
+                                <div key={message._id} className={style.userMessager}>
+                                    <p>{message.message}</p>
+                                </div>
+                            ) : (
+                                <div key={message._id} className={style.friendChatContainer}>
+                                    <div className={style.friendProfileContainer}>
+                                        {
+                                            arr[index + 1] === undefined || arr[index + 1].sender_id === user._id ?
+                                                <Avatar src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friend?.image_public_id}`} size='sm' /> :
+                                                <></>
+                                        }
+                                    </div>
+                                    <p className={style.friendMessage}>{message.message}</p>
+                                </div>
+                            )
+                        ))
+                    }
                 </div>
-                <div className='px-1 h-max flex items-end gap-1 w-full dark:bg-[#121212] bg-white border-t-1'>
+                <div className={style.textareaContainer}>
                     <Textarea
-                        placeholder="Type your message"
+                        placeholder='Type your message'
                         minRows={1}
                         maxRows={3}
-                        classNames={{
-                            inputWrapper: [
-                                "shadow-xl",
-                                "h-max",
-                                'border-1',
-                            ],
-                        }}
+                        classNames={style.textarea}
                         size='md'
                     />
-                    <Button color='primary' className='mb-1' size='lg'>Send</Button>
+                    <Button color='primary' className={style.sendBtn} size='lg'>Send</Button>
                 </div>
             </div>
         </section>

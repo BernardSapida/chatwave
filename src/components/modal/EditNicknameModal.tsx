@@ -1,20 +1,19 @@
-"use client"
+'use client'
 
 import { FunctionComponent, } from 'react';
 
 import { RxLetterCaseCapitalize } from 'react-icons/rx';
-import { AiOutlineEdit } from 'react-icons/ai';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, User } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, useDisclosure } from '@nextui-org/react';
 
 import style from '@/public/styles/ChatSetting/customizationOptions'
 import EditUserNickname from '../chatSetting/EditUserNickname';
 
 interface EditNicknameModalProps {
-
+    participants: User[]
 }
 
-const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = () => {
+const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = ({ participants }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
@@ -28,7 +27,9 @@ const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = () => {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
+                placement={'center'}
                 scrollBehavior={'inside'}
+                portalContainer={document.body}
             >
                 <ModalContent>
                     {(onClose) => (
@@ -37,8 +38,11 @@ const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = () => {
                                 Edit nickname
                             </ModalHeader>
                             <ModalBody className={style.modalBody}>
-                                <EditUserNickname />
-                                <EditUserNickname />
+                                {
+                                    participants.map((participant) => (
+                                        <EditUserNickname user={participant} />
+                                    ))
+                                }
                             </ModalBody>
                         </>
                     )}

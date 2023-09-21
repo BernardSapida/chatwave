@@ -28,5 +28,7 @@ export default {
         'w-[230px]',
         'text-default-500'
     ].join(' '),
-
+    badge: (messageSeen: boolean) => [
+        messageSeen ? 'border-none' : ''
+    ].join(' '),
 }

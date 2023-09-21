@@ -1,18 +1,19 @@
-"use client"
+'use client'
 
 import { FunctionComponent, } from 'react';
 
 import { BsPersonExclamation } from 'react-icons/bs';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, ModalFooter } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, ModalFooter } from '@nextui-org/react';
 
 import style from '@/public/styles/ChatSetting/customizationOptions'
 
 interface BlockProps {
-
+    user: User
+    friend: User
 }
 
-const Block: FunctionComponent<BlockProps> = () => {
+const Block: FunctionComponent<BlockProps> = ({ user, friend }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const block = (onClose: Function) => {
@@ -41,13 +42,13 @@ const Block: FunctionComponent<BlockProps> = () => {
                                 Block
                             </ModalHeader>
                             <ModalBody className={style.modalBody}>
-                                Are you sure, you want to block Bernard Sapida?
+                                Are you sure, you want to block {friend.firstname} {friend.lastname}?
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="default" variant="light" onPress={onClose}>
+                                <Button color='default' variant='light' onPress={onClose}>
                                     Cancel
                                 </Button>
-                                <Button color="danger" onPress={() => block(onClose)}>
+                                <Button color='danger' onPress={() => block(onClose)}>
                                     Block
                                 </Button>
                             </ModalFooter>

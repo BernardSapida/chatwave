@@ -1,20 +1,36 @@
 'use client'
 
-import ChatList from '../components/chatList/ChatList';
-import ChatSetting from '../components/chatSetting/ChatSetting';
-import ChatWindow from '../components/window/ChatWindow';
+import { useContext, useEffect } from 'react';
 
-import { useContext } from 'react';
-import { AppContext } from '../store/AppContext';
+import ChatList from '../components/chatList/ChatList';
+import EmptyChatWindow from '../components/window/EmptyChatWindow';
+
+import { UserContext } from '@/src/store/UserContext';
+
+import style from '@/public/styles/main';
 
 export default function Page() {
-  const appContext = useContext(AppContext);
+  const userContext = useContext(UserContext);
+  const user: User = {
+    _id: '1',
+    firstname: 'Bernard',
+    lastname: 'Sapida',
+    email: 'bernardsapida1706@gmail.com',
+    image_public_id: 'display-pictures/lyv8fagduswrloey8mpb'
+  }
+
+  useEffect(() => {
+    userContext.setId(user._id!);
+    userContext.setFirstname(user.firstname);
+    userContext.setLastname(user.lastname);
+    userContext.setEmail(user.email);
+    userContext.setImagePublicId(user.image_public_id!);
+  }, [])
 
   return (
-    <main className='flex'>
+    <main className={style.main}>
       <ChatList />
-      <ChatWindow />
-      <ChatSetting />
+      <EmptyChatWindow />
     </main >
   )
 }

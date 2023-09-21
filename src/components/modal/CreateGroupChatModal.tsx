@@ -29,9 +29,9 @@ const CreateGroupChatModal: FunctionComponent<CreateGroupChatModal> = ({ createG
             },
             {
                 _id: '2',
-                firstname: 'Jullianne',
-                lastname: 'Cabagay',
-                email: 'julliannecabagay@gmail.com',
+                firstname: 'Nicole',
+                lastname: 'Sapida',
+                email: 'NicoleSapida@gmail.com',
                 image_public_id: 'display-pictures/svyk0zmcltnytwyuebpg'
             }
         ];
@@ -57,7 +57,7 @@ const CreateGroupChatModal: FunctionComponent<CreateGroupChatModal> = ({ createG
 
     const createGroup = (): void => {
         if (friendsToAdd.length === 0) {
-            console.log("No friends to add")
+            console.log('No friends to add')
             return;
         }
 
@@ -95,7 +95,7 @@ const CreateGroupChatModal: FunctionComponent<CreateGroupChatModal> = ({ createG
                             isClearable
                         />
                         <p className={style.label}>Friends to add:</p>
-                        <div className='flex flex-wrap gap-1'>
+                        <div className={style.friendsContainer}>
                             {
                                 friendsToAdd.length > 0 ?
                                     friendsToAdd?.map((friend, index) => (

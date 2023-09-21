@@ -2,25 +2,21 @@
 
 import { FunctionComponent } from 'react';
 
-import { useTheme } from 'next-themes';
-
 import {
     Dropdown,
-    Switch,
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
     Button,
     DropdownSection,
     useDisclosure
-} from "@nextui-org/react";
+} from '@nextui-org/react';
 
-import { HiOutlineSun } from 'react-icons/hi';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { LuMessagesSquare } from 'react-icons/lu';
 import { MdOutlinePersonSearch } from 'react-icons/md';
 import { TbLogout, TbMessageCircleX } from 'react-icons/tb';
-import { BsPersonGear, BsPersonAdd, BsMoonStars, BsPersonCheck } from 'react-icons/bs';
+import { BsPersonGear, BsPersonAdd, BsPersonCheck } from 'react-icons/bs';
 
 import AllModals from '../modal/AllModals';
 
@@ -31,14 +27,72 @@ interface SettingDropdowProps {
 }
 
 const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
-    const { theme, setTheme } = useTheme();
-
     const myPreferencesDisclosure = useDisclosure();
     const myProfileModalDisclosure = useDisclosure();
     const addFriendModalDisclosure = useDisclosure();
     const friendRequestModalDisclosure = useDisclosure();
     const archivedChatsModalDisclosure = useDisclosure();
     const messageRequestModalDisclosure = useDisclosure();
+    const dropdownMenu: MenuSection[] = [
+        {
+            section: {
+                title: 'General',
+                showDivider: true,
+                menus: [
+                    {
+                        name: 'My profile',
+                        icon: <BsPersonCheck className={style.icon} />,
+                        disclosure: myProfileModalDisclosure.onOpen
+                    },
+                    {
+                        name: 'Add friend',
+                        icon: <BsPersonAdd className={style.icon} />,
+                        disclosure: addFriendModalDisclosure.onOpen
+                    },
+                    {
+                        name: 'Friend request',
+                        icon: <MdOutlinePersonSearch className={style.icon} />,
+                        disclosure: friendRequestModalDisclosure.onOpen
+                    },
+                ]
+            }
+        },
+        {
+            section: {
+                title: 'Conversations',
+                showDivider: true,
+                menus: [
+                    {
+                        name: 'Archived chats',
+                        icon: <TbMessageCircleX className={style.icon} />,
+                        disclosure: archivedChatsModalDisclosure.onOpen
+                    },
+                    {
+                        name: 'Message request',
+                        icon: <LuMessagesSquare className={style.icon} />,
+                        disclosure: messageRequestModalDisclosure.onOpen
+                    },
+                ]
+            }
+        },
+        {
+            section: {
+                title: 'Others',
+                showDivider: false,
+                menus: [
+                    {
+                        name: 'My preferences',
+                        icon: <BsPersonGear className={style.icon} />,
+                        disclosure: myPreferencesDisclosure.onOpen
+                    },
+                    {
+                        name: 'Logout',
+                        icon: <TbLogout className={style.icon} />,
+                    },
+                ]
+            }
+        }
+    ]
 
     return (
         <>
@@ -49,79 +103,31 @@ const SettingDropdown: FunctionComponent<SettingDropdowProps> = () => {
                     </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                    variant="faded"
-                    aria-label="Dropdown menu with icons"
+                    variant='faded'
+                    aria-label='Dropdown menu with icons'
                 >
-                    <DropdownSection
-                        title="Preferences"
-                        aria-label="preference"
-                        showDivider
-                    >
-                        <DropdownItem
-                            key="Profile"
-                            startContent={<BsPersonGear className={style.icon} />}
-                            onClick={myPreferencesDisclosure.onOpen}
-                        >
-                            My preferences
-                        </DropdownItem>
-                    </DropdownSection>
-                    <DropdownSection
-                        title="General"
-                        aria-label="general"
-                        showDivider
-                    >
-                        <DropdownItem
-                            key="Profile"
-                            startContent={<BsPersonCheck className={style.icon} />}
-                            onClick={myProfileModalDisclosure.onOpen}
-                        >
-                            My profile
-                        </DropdownItem>
-                        <DropdownItem
-                            key="Add friend "
-                            startContent={<BsPersonAdd className={style.icon} />}
-                            onClick={addFriendModalDisclosure.onOpen}
-                        >
-                            Add friend
-                        </DropdownItem>
-                        <DropdownItem
-                            key="Friend request"
-                            startContent={<MdOutlinePersonSearch className={style.icon} />}
-                            onClick={friendRequestModalDisclosure.onOpen}
-                        >
-                            Friend request
-                        </DropdownItem>
-                    </DropdownSection>
-                    <DropdownSection
-                        title="Conversations"
-                        aria-label="conversations"
-                        showDivider
-                    >
-                        <DropdownItem
-                            key="Archived chats"
-                            startContent={<TbMessageCircleX className={style.icon} />}
-                            onClick={archivedChatsModalDisclosure.onOpen}
-                        >
-                            Archived chats
-                        </DropdownItem>
-                        <DropdownItem
-                            key="Message request"
-                            startContent={<LuMessagesSquare className={style.icon} />}
-                            onClick={messageRequestModalDisclosure.onOpen}
-                        >
-                            Message request
-                        </DropdownItem>
-                    </DropdownSection>
-                    <DropdownSection
-                        aria-label="Logout"
-                    >
-                        <DropdownItem
-                            key="logout"
-                            startContent={<TbLogout className={style.icon} />}
-                        >
-                            Logout
-                        </DropdownItem>
-                    </DropdownSection>
+                    {
+                        dropdownMenu?.map(({ section: { title, showDivider, menus } }) => (
+                            <DropdownSection
+                                key={title}
+                                title={title}
+                                aria-label={title}
+                                showDivider={showDivider}
+                            >
+                                {
+                                    menus?.map(({ name, icon, disclosure }) => (
+                                        <DropdownItem
+                                            key={name}
+                                            startContent={icon}
+                                            onClick={disclosure}
+                                        >
+                                            {name}
+                                        </DropdownItem>
+                                    ))
+                                }
+                            </DropdownSection>
+                        ))
+                    }
                 </DropdownMenu>
             </Dropdown>
             <AllModals

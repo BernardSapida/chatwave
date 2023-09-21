@@ -1,23 +1,115 @@
 "use client"
 
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalFooter, User, Input } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, User } from "@nextui-org/react";
 
-import { initialValues, validationSchema } from '@/src/helpers/contactValidation';
-import styles from '@/public/styles/Profile/editProfile'
 import style from '@/public/styles/ChatSetting/customizationOptions'
-import axios from 'axios';
-import { Formik } from 'formik';
-import InputField from '../form/InputField';
-import { BiSearch } from 'react-icons/bi';
 
 interface FriendRequestModal {
     friendRequestModalDisclosure: Disclosure
 }
 
 const FriendRequestModal: FunctionComponent<FriendRequestModal> = ({ friendRequestModalDisclosure }) => {
-    const { isOpen, onClose, onOpenChange } = friendRequestModalDisclosure;
+    const { isOpen, onOpenChange } = friendRequestModalDisclosure;
+    const [friendRequest, setFriendRequest] = useState<User[]>([]);
+    const [rejectedUsers, setRejectedUsers] = useState<User[]>([]);
+    const [confirmedUsers, setConfirmedUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        // Data sample
+        const friendRequest: User[] = [
+            {
+                _id: '1',
+                firstname: 'Bernard',
+                lastname: 'Sapida',
+                email: 'bernardsapida@gmail.com',
+                image_public_id: 'display-pictures/lyv8fagduswrloey8mpb'
+            },
+            {
+                _id: '2',
+                firstname: 'Nicole',
+                lastname: 'Sapida',
+                email: 'NicoleSapida@gmail.com',
+                image_public_id: 'display-pictures/svyk0zmcltnytwyuebpg'
+            }
+        ];
+
+        setFriendRequest(friendRequest);
+    }, []);
+
+    const handleConfirm = (user: User) => {
+        // Add to user friends
+        console.log("Confirmed");
+        console.log(user);
+
+        // Update state
+        setConfirmedUsers(prevConfirmedUsers => [user, ...prevConfirmedUsers]);
+    }
+
+    const handleDelete = (user: User) => {
+        // Remove to user friends request
+        console.log("Removed");
+        console.log(user);
+
+        // Update state
+        setRejectedUsers(prevRejectedUsers => [user, ...prevRejectedUsers]);
+    }
+
+    const isUserRejected = (user: User): boolean => {
+        for (let rejectedUser of rejectedUsers) {
+            if (rejectedUser.email === user.email) return true;
+        }
+
+        return false;
+    }
+
+    const isUserConfirmed = (user: User): boolean => {
+        for (let confirmedUser of confirmedUsers) {
+            if (confirmedUser.email === user.email) return true;
+        }
+
+        return false;
+    }
+
+    const renderButtons = (user: User) => {
+        if (isUserRejected(user)) {
+            return (
+                <Button
+                    color={'default'}
+                    disabled
+                >
+                    Removed request
+                </Button>
+            )
+        } else if (isUserConfirmed(user)) {
+            return (
+                <Button
+                    color={'default'}
+                    disabled
+                >
+                    Confirmed
+                </Button>
+            )
+        } else {
+            return (
+                <>
+                    <Button
+                        color={'default'}
+                        onClick={() => handleDelete(user)}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        color={'primary'}
+                        onClick={() => handleConfirm(user)}
+                    >
+                        Confirm
+                    </Button>
+                </>
+            )
+        }
+    }
 
     return (
         <>
@@ -26,44 +118,36 @@ const FriendRequestModal: FunctionComponent<FriendRequestModal> = ({ friendReque
                 onOpenChange={onOpenChange}
                 placement={'center'}
                 scrollBehavior={'inside'}
-            // portalContainer={true}
+                portalContainer={document.body}
             >
                 <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className={style.modalHeader}>
-                                Friend request
-                            </ModalHeader>
-                            <ModalBody className={style.modalBody}>
-                                <div className={'flex items-center justify-between mb-3'}>
-                                    <User
-                                        name="Jane Doe"
-                                        description="Product Designer"
-                                        avatarProps={{
-                                            src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                        }}
-                                    />
-                                    <div className={'flex gap-1'}>
-                                        <Button color={'primary'}>Confirm</Button>
-                                        <Button>Delete</Button>
+                    <ModalHeader className={style.modalHeader}>Friend request</ModalHeader>
+                    <ModalBody className={style.modalBody}>
+                        {
+                            friendRequest?.length > 0 ?
+                                friendRequest?.map((user: User) => (
+                                    <div
+                                        key={user._id}
+                                        className={style.userContainer}
+                                    >
+                                        <User
+                                            name={`${user.firstname} ${user.lastname}`}
+                                            description={user.email}
+                                            avatarProps={{
+                                                src: `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${user.image_public_id}`
+                                            }}
+                                        />
+                                        <div className={'flex gap-1'}>
+                                            {
+                                                renderButtons(user)
+                                            }
+
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={'flex items-center justify-between mb-3'}>
-                                    <User
-                                        name="Jane Doe"
-                                        description="Product Designer"
-                                        avatarProps={{
-                                            src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                        }}
-                                    />
-                                    <div className={'flex gap-1'}>
-                                        <Button color={'primary'}>Confirm</Button>
-                                        <Button>Delete</Button>
-                                    </div>
-                                </div>
-                            </ModalBody>
-                        </>
-                    )}
+                                )) :
+                                <p className={style.placeholder}>No friend request</p>
+                        }
+                    </ModalBody>
                 </ModalContent>
             </Modal>
         </>

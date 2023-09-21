@@ -1,23 +1,67 @@
 "use client"
 
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalFooter, User, Input } from "@nextui-org/react";
-
-import { initialValues, validationSchema } from '@/src/helpers/contactValidation';
-import styles from '@/public/styles/Profile/editProfile'
-import style from '@/public/styles/ChatSetting/customizationOptions'
-import axios from 'axios';
-import { Formik } from 'formik';
-import InputField from '../form/InputField';
 import { BiSearch } from 'react-icons/bi';
+
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, User, Input } from "@nextui-org/react";
+
+import style from '@/public/styles/ChatSetting/customizationOptions'
 
 interface AddFriendModal {
     addFriendModalDisclosure: Disclosure
 }
 
 const AddFriendModal: FunctionComponent<AddFriendModal> = ({ addFriendModalDisclosure }) => {
-    const { isOpen, onClose, onOpenChange } = addFriendModalDisclosure;
+    const { isOpen, onOpenChange } = addFriendModalDisclosure;
+    const [users, setUsers] = useState<User[]>([]);
+    const [addedUsers, setAddedUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        // Data sample
+        const users: User[] = [
+            {
+                _id: '1',
+                firstname: 'Bernard',
+                lastname: 'Sapida',
+                email: 'bernardsapida@gmail.com',
+                image_public_id: 'display-pictures/lyv8fagduswrloey8mpb'
+            },
+            {
+                _id: '2',
+                firstname: 'Nicole',
+                lastname: 'Sapida',
+                email: 'NicoleSapida@gmail.com',
+                image_public_id: 'display-pictures/svyk0zmcltnytwyuebpg'
+            }
+        ];
+
+        setUsers(users);
+    }, []);
+
+    const handleAdd = (user: User) => {
+        // Add to user friends request
+        console.log(user);
+
+        // Update state
+        setAddedUsers(prevAddedUsers => [user, ...prevAddedUsers]);
+    }
+
+    const handleCancel = (user: User) => {
+        // Remove to user friends request
+        console.log(user);
+
+        // Update state
+        setAddedUsers(prevAddedUsers => prevAddedUsers.filter(currentUser => currentUser._id != user._id));
+    }
+
+    const isUserAdded = (user: User): boolean => {
+        for (let addedUser of addedUsers) {
+            if (addedUser.email === user.email) return true;
+        }
+
+        return false;
+    }
 
     return (
         <>
@@ -26,51 +70,57 @@ const AddFriendModal: FunctionComponent<AddFriendModal> = ({ addFriendModalDiscl
                 onOpenChange={onOpenChange}
                 placement={'center'}
                 scrollBehavior={'inside'}
-            // portalContainer={true}
+                portalContainer={document.body}
             >
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className={style.modalHeader}>
-                                Add friend
-                            </ModalHeader>
+                            <ModalHeader className={style.modalHeader}>Add friend</ModalHeader>
                             <ModalBody className={style.modalBody}>
                                 <Input
                                     label="Search"
-                                    isClearable
                                     radius="lg"
                                     placeholder="Search friends"
                                     startContent={
-                                        <BiSearch className="text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                                        <BiSearch className={style.searchIcon} />
                                     }
+                                    isClearable
                                 />
-                                <div className='mt-3'>
-                                    <p className='mb-3 text-tiny'>Found users:</p>
-                                    <div className={'flex items-center justify-between mb-3'}>
-                                        <User
-                                            name="Jane Doe"
-                                            description="Product Designer"
-                                            avatarProps={{
-                                                src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                            }}
-                                        />
-                                        <div className={'flex gap-1'}>
-                                            <Button color={'primary'}>Add friend</Button>
-                                        </div>
-                                    </div>
-                                    <div className={'flex items-center justify-between mb-3'}>
-                                        <User
-                                            name="Jane Doe"
-                                            description="Product Designer"
-                                            avatarProps={{
-                                                src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                            }}
-                                        />
-                                        <div className={'flex gap-1'}>
-                                            <Button color={'primary'}>Add friend</Button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p className={style.label}>Found users:</p>
+                                {
+                                    users?.length > 0 ?
+                                        users?.map((user: User) => (
+                                            <div
+                                                key={user._id}
+                                                className={style.userContainer}
+                                            >
+                                                <User
+                                                    name={`${user.firstname} ${user.lastname}`}
+                                                    description={user.email}
+                                                    avatarProps={{
+                                                        src: `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${user.image_public_id}`
+                                                    }}
+                                                />
+                                                {
+                                                    isUserAdded(user) ?
+                                                        <Button
+                                                            color={'default'}
+                                                            onClick={() => handleCancel(user)}
+                                                        >
+                                                            Cancel
+                                                        </Button> :
+                                                        <Button
+                                                            color={'primary'}
+                                                            onClick={() => handleAdd(user)}
+                                                        >
+                                                            Add friend
+                                                        </Button>
+
+                                                }
+                                            </div>
+                                        )) :
+                                        <p className={style.placeholder}>No user found</p>
+                                }
                             </ModalBody>
                         </>
                     )}

@@ -8,11 +8,6 @@ export default {
         'justify-between',
         'gap-3',
     ].join(' '),
-    profile: [
-        'rounded-full',
-        'h-9',
-        'w-9'
-    ].join(' '),
     name: [
         'text-xs',
         'font-medium'

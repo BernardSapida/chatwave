@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+// import { Inter } from 'next/font/google'
 
 import { Providers } from "./providers";
-import { AppContextProvider } from '../store/AppContext';
+import { UserContextProvider } from '../store/UserContext';
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 import '@/public/css/globals.css'
 
@@ -20,12 +20,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <AppContextProvider>
+      <body
+      // className={inter.className}
+      >
+        <UserContextProvider>
           <Providers>
             {children}
           </Providers>
-        </AppContextProvider>
+        </UserContextProvider>
       </body>
     </html >
   )

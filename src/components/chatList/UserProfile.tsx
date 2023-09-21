@@ -1,16 +1,14 @@
-"use client"
+'use client'
 
 import { FunctionComponent } from 'react';
 
-import { User } from "@nextui-org/react";
+import { User } from '@nextui-org/react';
 
 import SettingDropdown from './SettingDropdown';
 
 import style from '@/public/styles/ChatList/userProfile'
 
-interface UserProfileProps {
-
-}
+interface UserProfileProps { }
 
 const UserProfile: FunctionComponent<UserProfileProps> = () => {
     return (
