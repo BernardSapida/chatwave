@@ -75,7 +75,7 @@ const Chat: FunctionComponent<ChatProps> = ({ conversation }) => {
                 >
                     <Avatar
                         radius='full'
-                        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friendProfile?.image_public_id}`}
+                        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friendProfile?.image_public_id}.jpg`}
                         alt={`${friendProfile?.firstname} ${friendProfile?.lastname} Photo`}
                     />
                 </Badge>

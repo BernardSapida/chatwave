@@ -68,7 +68,7 @@ const ChatWindow: FunctionComponent<ChatWindowProps> = ({ conversation, user, fr
                                     <div className={style.friendProfileContainer}>
                                         {
                                             arr[index + 1] === undefined || arr[index + 1].sender_id === user._id ?
-                                                <Avatar src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friend?.image_public_id}`} size='sm' /> :
+                                                <Avatar src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${friend?.image_public_id}.jpg`} size='sm' /> :
                                                 <></>
                                         }
                                     </div>

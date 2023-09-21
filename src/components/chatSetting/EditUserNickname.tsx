@@ -26,7 +26,7 @@ const EditUserNickname: FunctionComponent<EditUserNicknameProps> = ({ user }) =>
         <div className={style.container}>
             <div className={style.userContainer}>
                 <Avatar
-                    src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${user.image_public_id}`}
+                    src={`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${user.image_public_id}.jpg`}
                     size='md'
                 />
                 {
