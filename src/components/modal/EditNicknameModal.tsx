@@ -32,20 +32,16 @@ const EditNicknameModal: FunctionComponent<EditNicknameModalProps> = ({ particip
                 portalContainer={document.body}
             >
                 <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className={style.modalHeader}>
-                                Edit nickname
-                            </ModalHeader>
-                            <ModalBody className={style.modalBody}>
-                                {
-                                    participants.map((participant) => (
-                                        <EditUserNickname user={participant} />
-                                    ))
-                                }
-                            </ModalBody>
-                        </>
-                    )}
+                    <ModalHeader className={style.modalHeader}>
+                        Edit nickname
+                    </ModalHeader>
+                    <ModalBody className={style.modalBody}>
+                        {
+                            participants.map((participant) => (
+                                <EditUserNickname key={participant._id} user={participant} />
+                            ))
+                        }
+                    </ModalBody>
                 </ModalContent>
             </Modal>
         </>

@@ -15,12 +15,10 @@ interface ChatProps {
 }
 
 const Chat: FunctionComponent<ChatProps> = ({ conversation }) => {
-    if (!conversation) return <div></div>;
-
     const { _id, participants, messages } = conversation;
-    const userContext = useContext(UserContext);
     const [friendProfile, setFriendProfile] = useState<User>();
     const [notSeenCount, setNotSeenCount] = useState<number>();
+    const userContext = useContext(UserContext);
     const router = useRouter();
 
     useEffect(() => {
@@ -29,6 +27,8 @@ const Chat: FunctionComponent<ChatProps> = ({ conversation }) => {
         setFriendProfile(friend);
         setNotSeenCount(not_seen_message_count);
     }, []);
+
+    if (!conversation) return <div></div>;
 
     const getFriendProfile = (): [User, number] => {
         let friend: User;
